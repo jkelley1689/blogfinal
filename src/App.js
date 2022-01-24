@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import './App.css';
+import { Authenticator } from '@aws-amplify/ui-react';
+import CreatePost from './components/CreatePost';
+import DisplayPosts from './components/DisplayPosts';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Authenticator socialProviders={['amazon', 'apple', 'facebook', 'google']}>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
+
+      < CreatePost />
+      < DisplayPosts />
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App, {includeGreetings:true })
